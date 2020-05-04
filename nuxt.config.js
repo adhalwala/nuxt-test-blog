@@ -1,3 +1,4 @@
+const axios = require('axios');
 
 export default {
   mode: 'universal',
@@ -70,5 +71,17 @@ export default {
   layoutTransition: {
     name: 'fade',
     mode: 'out-in'
+  },
+  generate: {
+    routes: function() {
+      return axios.get('https://nuxt-test-2da65.firebaseio.com/posts.json')
+        .then(res => {
+          const routes = [];
+          for (const key in res.data) {
+            routes.push('/posts/' + key)
+          }
+          return routes
+        })
+    }
   }
 }
